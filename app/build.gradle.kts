@@ -32,7 +32,9 @@ android {
 }
 
 dependencies {
-
+    //optional - Guava ListenableFuture support
+    implementation("androidx.paging:paging-guava:3.1.1")
+    implementation("androidx.paging:paging-runtime:3.1.1")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
