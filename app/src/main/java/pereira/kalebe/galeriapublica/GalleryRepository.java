@@ -23,38 +23,28 @@ public class GalleryRepository {
         this.context = context;
     }
 
-    //recebe como parametros dois numeros inteiros o limit e offset
-
-    //limit é o numero de elementos que devem ser carregados
-
-    //offset é o indice a partir do qual os elementos devem ser carregados
-
+    //organiza as imagens para a galeria
     public List<ImageData> loadImageData(Integer limit, Integer offSet) throws FileNotFoundException{
 
-        //cria uma lista de ImageData
-
         List<ImageData> imageDataList = new ArrayList<>();
-
-        //pega as dimensions que cada miniatura de foto deve ter
-
         int w = 100;
         int h = 100;
 
         String[] projection = new String[]
 
 
-                //o id do arquivo de fotos usado para construir o endereço uri
+                //obtenção do endereço uri
 
                 {MediaStore.Images.Media._ID,
 
-                        // o nome do arquivo de foto
+                        // o nome do arquivo da foto
 
                         MediaStore.Images.Media.DISPLAY_NAME,
 
-                        // a data em que a foto foi criada
+                        // a data do arquivo da foto
                         MediaStore.Images.Media.DATE_ADDED,
 
-                        // tamanho do arquivo em bytes
+                        // tamanho do arquivo da foto
                         MediaStore.Images.Media.SIZE};
         String selection = null;
         String selectionArgs[] = null;
@@ -83,15 +73,12 @@ public class GalleryRepository {
         int dateAddedColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED);
         int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
         while (cursor.moveToNext()) {
-            //Pega valores das colunas para uma imagem escolhida
             long id = cursor.getLong(idColumn);
             Uri contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
             String name = cursor.getString(nameColumn);
             int dateAdded = cursor.getInt(dateAddedColumn);
             int size = cursor.getInt(sizeColumn);
             Bitmap thumb = Util.getBitmap(context, contentUri, w, h);
-            // Guarda valores de coluna e contentUri num local de objeto
-            // isso represente o arquivo de media
             imageDataList.add(new ImageData(contentUri, thumb, name, new Date(dateAdded*1000), size));
         }
         return imageDataList;

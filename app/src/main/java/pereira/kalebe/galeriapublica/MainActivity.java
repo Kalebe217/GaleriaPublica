@@ -26,30 +26,61 @@ import android.Manifest;
 
 public class MainActivity extends AppCompatActivity {
 
-    //define o bottomNavigationView como um atribuito da MainActivity. Isso é necessario porque utilizaremos a referencia em outros metodos da classe.
-
+    //define a classe
     BottomNavigationView bottomNavigationView;
-
     static int RESULT_REQUEST_PERMISSION = 2;
 
-    //o metodo setFragment recebe como parametro um fragment.
 
+
+
+    //inicialização do app
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+
+        //cria view model
+        final MainViewModel vm = new ViewModelProvider(this).get(MainViewModel.class);
+
+
+
+        //configura view model de acordo com botao selecionado
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                //guarda dentro de MainViewModel a opção que foi escolhida pelo usuario
+                vm.setNavigationOpSelected(item.getItemId());
+
+                //modo grid
+                if (item.getItemId() == R.id.gridViewOp) {
+                    GridViewFragment gridViewFragment = GridViewFragment.newInstance();
+                    setFragment(gridViewFragment);
+                }
+
+                //modo lista
+                if(item.getItemId() == R.id.listViewOp) {
+                    ListViewFragment listViewFragment = ListViewFragment.newInstance();
+                    setFragment(listViewFragment);
+                }
+                return true;
+            }
+        });
+    }
+
+
+
+
+
+    //metodo para aplicar fragment à tela principal
     void setFragment(Fragment fragment) {
 
-        //transação do gerenciador de fragmentos
-
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-        //esse fragment sera setado no espaço definido pelo elemento de UI fragContainer
-
         fragmentTransaction.replace(R.id.frameLayout, fragment);
-
-        //indica o fragmento que agora faz parte da pilha de tela do botão voltar do Android
-
         fragmentTransaction.addToBackStack(null);
-
-        // realiza o commit da transação
-
         fragmentTransaction.commit();
     }
 
@@ -62,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //verifica as permissões e segue de acordo com a escolha do usuario
     private void checkForPermissions(List<String> permissions) {
         List<String> permissionsNotGranted = new ArrayList<>();
 
@@ -75,17 +107,12 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-                    // caso o app já possua todas as permissões que precisa
 
                     else {
 
-                        //acessa a MainViewModel e obtem a opção que foi escolhida pelo usuario
 
                         MainViewModel vm = new ViewModelProvider(this).get(MainViewModel.class);
                         int navigationOpSelected = vm.getNavigationOpSelected();
-
-                        //seta a opção em bottonNavigationView
-
                         bottomNavigationView.setSelectedItemId(navigationOpSelected);
                     }
                 }
@@ -113,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
+        //verifica se todas as permissõess foram fornecidas pelo usuario
         if(permissionsRejected.size() > 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
@@ -129,11 +156,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        //verifica se todas as permissõess foram fornecidas pelo usuario
+
 
         else{
-
-            //caso positivo é realizado o mesmo procedimento
 
             MainViewModel vm = new ViewModelProvider(this).get(MainViewModel.class);
             int navigationOpSelected = vm.getNavigationOpSelected();
@@ -142,47 +167,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
 
-        //obtem a referencia para MainViewModel
-
-        final MainViewModel vm = new ViewModelProvider(this).get(MainViewModel.class);
-        //obtem a referencia para o BottonNavigationView
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
-        //um "escutador" de eventos de seleção de menu.Assim toda vez que o usuario selecionar uma das opções, o metodo onNavigationItemSelected será chamado, indicando qual opção foi escolhida
-
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                //guarda dentro de MainViewModel a opção que foi escolhida pelo usuario
-
-                vm.setNavigationOpSelected(item.getItemId());
-
-                //caso o usuario selecione o gridViewOp, sera criado um fragmento do tipo GridViewFragment e o mesmo sera setado em MainActivity
-
-                if (item.getItemId() == R.id.gridViewOp) {
-                    GridViewFragment gridViewFragment = GridViewFragment.newInstance();
-                    setFragment(gridViewFragment);
-
-                }
-
-
-                //caso o usuario selecione listViewOp, sera criado um fragmento do tipo ListViewFragment e o mesmo sera setado em MainActivity
-
-                if(item.getItemId() == R.id.listViewOp) {
-                    ListViewFragment listViewFragment = ListViewFragment.newInstance();
-                    setFragment(listViewFragment);
-                }
-                return true;
-            }
-        });
-    }
 }

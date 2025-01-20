@@ -15,13 +15,11 @@ import java.util.List;
 
 import kotlinx.coroutines.CoroutineScope;
 
-// MainViewModel herda de AndroidViewModel não de ViewModel
 public class MainViewModel extends AndroidViewModel {
     LiveData<PagingData<ImageData>> pageLv;
     int navigationOpSelected = R.id.gridViewOp;
 
 
-    //A classe AndroidViewModel é uma especialização de ViewModel que possui como parâmetro de entrada em seu construtor uma instancia da aplicação
     public MainViewModel(@NonNull Application application) {
         super(application);
 
@@ -32,15 +30,14 @@ public class MainViewModel extends AndroidViewModel {
         pageLv = PagingLiveData.cachedIn(PagingLiveData.getLiveData(pager), viewModelScope);
 
     }
+
+    //metodos
     public LiveData<PagingData<ImageData>> getPageLv() {
         return pageLv;
     }
-
-    //mostra os metodos para pegar e setar o valor
     public int getNavigationOpSelected() {
         return navigationOpSelected;
     }
-
     public void setNavigationOpSelected(int navigationOpSelected) {
         this.navigationOpSelected = navigationOpSelected;
 

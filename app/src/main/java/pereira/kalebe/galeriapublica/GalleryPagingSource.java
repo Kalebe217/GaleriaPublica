@@ -16,13 +16,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 
-//GalleryPagingSource herda de ListenableFuturePagingSource
-
 public class GalleryPagingSource extends ListenableFuturePagingSource<Integer, ImageData> {
     GalleryRepository galleryRepository;
     Integer initialLoadSize = 0;
 
-//recebe como parametro uma instancia de GalleryRepository que sera usada para consultar os dados e montar as paginas de dados
+
 
     public GalleryPagingSource(GalleryRepository galleryRepository) {
         this.galleryRepository = galleryRepository;
@@ -31,7 +29,6 @@ public class GalleryPagingSource extends ListenableFuturePagingSource<Integer, I
     @Nullable
     @Override
 
-    //retorna nulo
     public Integer getRefreshKey(@Nonnull PagingState<Integer, ImageData> pagingState) {
         return null;
     }
@@ -39,12 +36,11 @@ public class GalleryPagingSource extends ListenableFuturePagingSource<Integer, I
     @Nonnull
     @Override
 
-    //é responsavel por carregar uma pagina do GalleryRepository e retorna-lo encapsulado em um objeto ListenableFuture
 
+    //carrega pagina do GalleryRepository e a retorna encapsulada em um objeto ListenableFuture
     public ListenableFuture<LoadResult<Integer, ImageData>> loadFuture(@Nonnull LoadParams<Integer> loadParams) {
 
-        //corresponde a pagina de dados que deve ser obtida neste momento
-
+        //verifica qual pagina foi solicitada
         Integer nextPageNumber = loadParams.getKey();
         if (nextPageNumber == null) {
             nextPageNumber = 1;

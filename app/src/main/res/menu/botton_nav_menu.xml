@@ -4,7 +4,7 @@
     <item
         android:id="@+id/gridViewOp"
         android:icon="@android:drawable/ic_dialog_dialer"
-        android:title="F" />
+        android:title="Grid" />
     <item
         android:id="@+id/listViewOp"
         android:icon="@android:drawable/ic_menu_sort_by_size"

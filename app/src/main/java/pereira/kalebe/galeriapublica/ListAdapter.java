@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.DiffUtil;
 
 import java.text.SimpleDateFormat;
 
-// herda uma classe especifica de paging 3, a classe PagingDataAdapter
 public class ListAdapter extends PagingDataAdapter<ImageData, MyViewHolder> {
     public ListAdapter(@NonNull DiffUtil.ItemCallback<ImageData> diffCallback) {
         super(diffCallback);
@@ -21,7 +20,7 @@ public class ListAdapter extends PagingDataAdapter<ImageData, MyViewHolder> {
     @NonNull
     @Override
 
-    //o onCreateViewHolder e onBindViewHolder tem o mesmo comportamento de um adapter normal
+    //adaptação para o código
 
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
