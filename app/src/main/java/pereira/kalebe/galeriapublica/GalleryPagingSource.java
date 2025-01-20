@@ -40,6 +40,7 @@ public class GalleryPagingSource extends ListenableFuturePagingSource<Integer, I
     //carrega pagina do GalleryRepository e a retorna encapsulada em um objeto ListenableFuture
     public ListenableFuture<LoadResult<Integer, ImageData>> loadFuture(@Nonnull LoadParams<Integer> loadParams) {
 
+
         //verifica qual pagina foi solicitada
         Integer nextPageNumber = loadParams.getKey();
         if (nextPageNumber == null) {
