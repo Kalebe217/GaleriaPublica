@@ -33,11 +33,9 @@ public class GalleryPagingSource extends ListenableFuturePagingSource<Integer, I
         return null;
     }
 
+    //carrega pagina do GalleryRepository e a retorna encapsulada em um objeto ListenableFuture
     @Nonnull
     @Override
-
-
-    //carrega pagina do GalleryRepository e a retorna encapsulada em um objeto ListenableFuture
     public ListenableFuture<LoadResult<Integer, ImageData>> loadFuture(@Nonnull LoadParams<Integer> loadParams) {
 
 

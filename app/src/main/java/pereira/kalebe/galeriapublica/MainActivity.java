@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        List<String> permissions = new ArrayList<>();
+        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        checkForPermissions(permissions);
 
         //cria view model
         final MainViewModel vm = new ViewModelProvider(this).get(MainViewModel.class);
@@ -87,9 +90,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        List<String> permissions = new ArrayList<>();
-        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        checkForPermissions(permissions);
+
     }
 
 

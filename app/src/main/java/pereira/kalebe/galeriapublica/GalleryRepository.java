@@ -64,7 +64,7 @@ public class GalleryRepository {
 
         }
         else {
-            cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sort + "ASC + LIMIT" + String.valueOf(limit) + "OFFSET" + String.valueOf(offSet));
+            cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sort + "ASC + LIMIT " + String.valueOf(limit) + " OFFSET " + String.valueOf(offSet));
 
 
         }
